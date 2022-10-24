@@ -1,5 +1,4 @@
 from cgi import print_arguments
-import string
 import numpy as np
 import matplotlib.pyplot as plt
 # McFACTS v0.0 9/15/22 BMcK
