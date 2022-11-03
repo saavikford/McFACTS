@@ -200,6 +200,8 @@ def dr_migration(bh_locations,prograde_orb_ang_mom_indices,bh_masses,disk_surfac
     #sg_norm is a normalization factor for the Sirko & Goodman (2003) disk model
     #38Myrs=3.8e7yrs is the time for a 5Msun BH to undergo Type I migration to 
     #the SMBH from 10^4r_g in that model.
+    # bh_locations are specified in R_g of the SMBH
+    # need to find Sigma, H/r at given bh_locations
     sg_norm=3.8e7
     #scaled_aspect=disk_aspect ratio scaled to 0.02 as a fiducial value. 
     #Everything will be scaled around that

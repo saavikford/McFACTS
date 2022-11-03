@@ -22,15 +22,15 @@ mass_smbh = 1.e8
 #
 #   McFACTS comes with the following example options for disk models:
 #       flat: constant surface density & aspect ratio (unphysical)
-#       LIES! sirko_goodman: from Sirko & Goodman 2003
-#       LIES! thompson_etal: from Thompson, Quataert & Murray 2005
+#       sirko_goodman: from Sirko & Goodman 2003
+#       thompson_etal: from Thompson, Quataert & Murray 2005
 #
 #   If the disk has a migration trap, its radius must be specified below
 #       to prevent overshooting in coarse grained models. If there is no
 #       trap, set trap_radius = 0. (all BH will eventually accrete onto SMBH)
 #
 # Specify prefix to filenames for input disk model
-disk_model_name = 'flat'
+disk_model_name = 'sirko_goodman'
 # trap radius
 trap_radius = 700.
 #
