@@ -114,6 +114,8 @@ aspect_ratio_file.close()
 # re-cast from lists to arrays
 aspect_ratio_array = np.array(aspect_ratio_list)
 
+# test comment
+
 # Housekeeping from input variables
 disk_outer_radius = disk_model_radius_array[-1]
 disk_inner_radius = disk_model_radius_array[0]
