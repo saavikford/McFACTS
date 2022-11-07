@@ -119,13 +119,10 @@ aspect_ratio_array = np.array(aspect_ratio_list)
 # Housekeeping from input variables
 disk_outer_radius = disk_model_radius_array[-1]
 disk_inner_radius = disk_model_radius_array[0]
-# these are bogus--right now just assuming constant so pull the first value
-# !!! fix later
+
 # set up functions to find aspect ratio & surface density by interpolation
 # except this is dumb, should pass in arrays ONCE then just pass in radius
 # and get answer
-# WORSE: models are too finely divided, multi-valued... must use higher precision
-#   output OR fewer data points.
 def aspect_ratio_at_rad(model_radius, model_aspect_ratio, rad):
     """does a spline interpolation to find aspect ratio for arbitrary radius"""
     f2 = interpol.splrep(model_radius,model_aspect_ratio,s=0)
@@ -133,10 +130,17 @@ def aspect_ratio_at_rad(model_radius, model_aspect_ratio, rad):
 
     return aspect_ratio
 
-disk_aspect_ratio = aspect_ratio_at_rad(disk_model_radius_array, aspect_ratio_array, 1.0e3)
-print(disk_aspect_ratio)
+def surf_dens_at_rad(model_radius, model_surf_dens, rad):
+    """does a spline interpolation to find aspect ratio for arbitrary radius"""
+    f2 = interpol.splrep(model_radius,model_surf_dens,s=0)
+    surf_dens = interpol.splev(rad,f2,der=0)
 
-disk_surface_density = surface_density_array[0]
+    return surf_dens
+
+# these are bogus--right now just assuming constant so plug in 1e3Rg for rad
+# !!! fix later
+disk_aspect_ratio = aspect_ratio_at_rad(disk_model_radius_array, aspect_ratio_array, 1.0e3)
+disk_surface_density = surf_dens_at_rad(disk_model_radius_array, surface_density_array, 1.0e3)
 
 # Housekeeping initialization stuff -- do not change!
 
