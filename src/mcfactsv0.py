@@ -123,6 +123,7 @@ disk_inner_radius = disk_model_radius_array[0]
 # set up functions to find aspect ratio & surface density by interpolation
 # except this is dumb, should pass in arrays ONCE then just pass in radius
 # and get answer
+# ALSO: caution that I don't know if this interpolation works on TQM
 def aspect_ratio_at_rad(model_radius, model_aspect_ratio, rad):
     """does a spline interpolation to find aspect ratio for arbitrary radius"""
     f2 = interpol.splrep(model_radius,model_aspect_ratio,s=0)
