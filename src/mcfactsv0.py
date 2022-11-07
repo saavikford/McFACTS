@@ -1,6 +1,8 @@
 from cgi import print_arguments
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+import scipy.interpolate as interpol
 # McFACTS v0.0 9/15/22 BMcK
 # What does this code do?
 # a.Set up a simple 1-d AGN disk model
@@ -114,33 +116,45 @@ aspect_ratio_file.close()
 # re-cast from lists to arrays
 aspect_ratio_array = np.array(aspect_ratio_list)
 
-# test comment
-
 # Housekeeping from input variables
 disk_outer_radius = disk_model_radius_array[-1]
 disk_inner_radius = disk_model_radius_array[0]
 # these are bogus--right now just assuming constant so pull the first value
 # !!! fix later
-disk_aspect_ratio = aspect_ratio_array[0]
+# set up functions to find aspect ratio & surface density by interpolation
+# except this is dumb, should pass in arrays ONCE then just pass in radius
+# and get answer
+# WORSE: models are too finely divided, multi-valued... must use higher precision
+#   output OR fewer data points.
+def aspect_ratio_at_rad(model_radius, model_aspect_ratio, rad):
+    """does a spline interpolation to find aspect ratio for arbitrary radius"""
+    f2 = interpol.splrep(model_radius,model_aspect_ratio,s=0)
+    aspect_ratio = interpol.splev(rad,f2,der=0)
+
+    return aspect_ratio
+
+disk_aspect_ratio = aspect_ratio_at_rad(disk_model_radius_array, aspect_ratio_array, 1.0e3)
+print(disk_aspect_ratio)
+
 disk_surface_density = surface_density_array[0]
 
 # Housekeeping initialization stuff -- do not change!
 
 # What is the spin angle indicating alignment with AGN disk (should be zero rad)
-aligned_spin_angle_radians=0.0
+aligned_spin_angle_radians = 0.0
 # Spin angle indicating anti-alignment with AGN disk (should be pi radians=180deg)
-antialigned_spin_angle_radians=3.14
+antialigned_spin_angle_radians = 3.14
 # minimum spin angle resolution (ie less than this value gets fixed to zero) e.g 0.02 rad=1deg
-spin_minimum_resolution=0.02
+spin_minimum_resolution = 0.02
 # Fractional rate of mass growth per year at the Eddington rate(2.3e-8/yr)
-mass_growth_Edd_rate=2.3e-8
+mass_growth_Edd_rate = 2.3e-8
 
 # Binary properties
 # Number of binary properties that we want to record (e.g. M_1,_2,a_1,2,theta_1,2,a_bin,a_com,t_gw,ecc,bin_ang_mom,generation)
-number_of_binary_properties=13.0
+number_of_binary_properties = 13.0
 
 # Start time (in years)
-initial_time=0.
+initial_time = 0.
 
 #PART 3 Set up Initial Black hole population
 # TO DO: put all this in an initializing FUNCTION call.
